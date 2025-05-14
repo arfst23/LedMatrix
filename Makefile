@@ -15,6 +15,8 @@ REASON		= @if [ -f $@ ]; then echo "[$@: $?]"; else echo "[$@]"; fi
 
 ################################################################################
 
+all: matrix-demo mpu6050-demo
+
 matrix-demo: matrix-demo.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
