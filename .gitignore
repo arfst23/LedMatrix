@@ -5,3 +5,4 @@
 core
 tags
 deps
+rgbmatrix.h
