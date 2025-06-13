@@ -1,24 +1,15 @@
 #!/bin/sh -e
-################################################################################
-
-# build the library for the 
-# Adafruit 64x64 RGB LED Matrix 2.5mm Pitch
-# https://www.adafruit.com/product/3649
-# Adafruit Matrix Bonnet
-# https://www.adafruit.com/product/3211
 
 url='https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/main/rgb-matrix.sh'
 
-################################################################################
-
 curl $url > rpi-rgb-led-matrix-installer
 
-echo 'CONTINUE? [y/n] y'
-echo '1. Adafruit RGB Matrix Bonnet'
-echo '1. Quality (disables sound, requires soldering)'
-echo 'CONTINUE? [y/n] y'
-echo 'REBOOT NOW? [y/n] n'
 sudo bash rpi-rgb-led-matrix-installer
+# CONTINUE? [y/n] y
+# 1. Adafruit RGB Matrix Bonnet
+# 1. Quality (disables sound, requires soldering)
+# CONTINUE? [y/n] y
+# REBOOT NOW? [y/n] y
 
 cp rpi-rgb-led-matrix/lib/librgbmatrix.a .
 chmod a=r librgbmatrix.a
@@ -26,8 +17,6 @@ chmod a=r librgbmatrix.a
 cp rpi-rgb-led-matrix/include/led-matrix-c.h rgbmatrix.h
 chmod a=r rgbmatrix.h
 
+# sudo ./rpi-rgb-led-matrix/examples-api-use/demo --led-rows=64 --led-cols=64 --led-slowdown-gpio=2 -D 0
+
 rm -r rpi-rgb-led-matrix rpi-rgb-led-matrix-installer
-
-echo 'need to reboot'
-
-################################################################################

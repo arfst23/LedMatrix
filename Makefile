@@ -48,6 +48,14 @@ pong: pong.o orient.o mpu6050.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
+sand: sand.c orient.o mpu6050.o matrix.o
+	$(REASON)
+	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+ppms2matrix: ppms2matrix.o matrix.o
+	$(REASON)
+	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS) -lnetpbm
+
 ################################################################################
 
 rgbmatrix.h librgbmatrix.o: build

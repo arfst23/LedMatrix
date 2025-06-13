@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+# 720x576
+ffmpeg -i /home/alu/sw.mp4 \
+  -vf 'crop=430:430:145:73,scale=64:64' \
+  -f image2pipe -vcodec ppm - \
+  | sudo ./ppms2matrix
+
