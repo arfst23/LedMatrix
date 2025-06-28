@@ -18,8 +18,6 @@
 #define GAMMA 1.2f
 #define SKIP 13
 
-#define FRAME_TIME 41
-
 int gamma_(int x)
 {
   return (int)(powf((float)x / 255.0f, GAMMA) * 255.0f);
@@ -46,6 +44,10 @@ int main(int ac, char *av[])
     gamma__[x] = gamma_(x);
 
   ppm_init(&ac, av);
+
+  assert(ac == 2);
+  int frame_time = atoi(av[1]);
+  assert(frame_time);
 
   matrix_create();
 
@@ -78,7 +80,7 @@ int main(int ac, char *av[])
 
       for (int col = 0; col < cols; ++col)
       {
-        matrix_set_rgb(col, row,
+        matrix_set_raw(col, row,
             gamma__[pixels[row][col].r],
             gamma__[pixels[row][col].g],
             gamma__[pixels[row][col].b]);
@@ -95,7 +97,7 @@ int main(int ac, char *av[])
         break;
     }
 
-    t0 += FRAME_TIME;
+    t0 += frame_time;
     uint64_t t = time_ms();
     int dt = (int)(t0 - t);
     if (dt > 0)

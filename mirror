@@ -1,0 +1,5 @@
+#!/bin/sh -e
+ 
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 \
+  -vf 'crop=400:400:120:0,scale=64:64' -f image2pipe -vcodec ppm - \
+  | sudo /home/alu/matrix/ppms2matrix

@@ -7,12 +7,15 @@
 #include <string.h>
 #include <assert.h>
 
+// https://github.com/hzeller/rpi-rgb-led-matrix/blob/master/README.md#changing-parameters-via-command-line-flags
 static const char *matrix_argv[] =
 {
   "",
   "--led-cols=64",
   "--led-rows=64",
   "--led-slowdown-gpio=2",
+  "--led-chain=1", // number of daisy-chained panels
+  "--led-gpio-mapping=adafruit-hat-pwm",
   NULL
 };
 
@@ -33,7 +36,7 @@ void matrix_create()
 
 //*****************************************************************************
 
-void matrix_set_rgb(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b)
+void matrix_set_raw(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b)
 {
   assert(matrix);
   assert(x < MATRIX_WIDTH);
@@ -55,6 +58,8 @@ void matrix_flush()
 void matrix_free()
 {
   assert(matrix);
+  matrix_flush();
+  matrix_flush();
   led_matrix_delete(matrix);
   matrix = NULL;
 }
@@ -585,9 +590,15 @@ static uint8_t rgb[256][3] =
 
 //*****************************************************************************
 
+void matrix_set_rgb(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b)
+{
+  matrix_set_raw(x, y, gamma[r], gamma[g], gamma[b]);
+}
+
+//*****************************************************************************
 void matrix_set_g(uint8_t x, uint8_t y, uint8_t v)
 {
-  matrix_set_rgb(x, y, gamma[v], gamma[v], gamma[v]);
+  matrix_set_raw(x, y, gamma[v], gamma[v], gamma[v]);
 }
 
 //*****************************************************************************
@@ -604,7 +615,7 @@ void matrix_set_hv(uint8_t x, uint8_t y, uint8_t h, uint8_t v)
     g = (uint8_t)(((uint16_t)g * f) >> 8);
     b = (uint8_t)(((uint16_t)b * f) >> 8);
   }
-  matrix_set_rgb(x, y, r, g, b);
+  matrix_set_raw(x, y, r, g, b);
 }
 
 //*****************************************************************************

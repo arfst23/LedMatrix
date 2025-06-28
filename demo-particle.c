@@ -11,9 +11,9 @@
 #define DELAY 25
 
 #define ACCEL 0.00005
-#define REFLECTION_DAMP 0.9
-#define FRICTION_DAMP 0.999
-#define MIN_SPEED 0.01
+#define REFLECTION_DAMP 0.8
+#define FRICTION_DAMP 0.99
+#define MIN_SPEED 0.02
 
 static inline void delay(int ms)
 {
@@ -44,11 +44,6 @@ int main()
     u *= FRICTION_DAMP;
     v *= FRICTION_DAMP;
 
-    if (fabsf(u) < MIN_SPEED)
-      u = 0.0;
-    if (fabsf(v) < MIN_SPEED)
-      v = 0.0;
-
     u += a;
     v += b;
 
@@ -77,20 +72,27 @@ int main()
       v = -v * REFLECTION_DAMP;
     }
 
-    if (u > 3.0)
-      u = 3.0;
-    if (u < -3.0)
-      u = -3.0;
+    if (u > 4.0)
+      u = 4.0;
+    if (u < -4.0)
+      u = -4.0;
 
-    if (v > 3.0)
-      v = 3.0;
-    if (v < -3.0)
-      v = -3.0;
+    if (v > 4.0)
+      v = 4.0;
+    if (v < -4.0)
+      v = -4.0;
 
     float speed = sqrtf(u * u + v * v);
+
+    if (fabsf(speed) < MIN_SPEED)
+    {
+      u = 0.0;
+      v = 0.0;
+    }
+
     speed *= 60.0;
-    if (speed >= 70.0)
-      speed = 70.0;
+    if (speed >= 96.0)
+      speed = 96.0;
     uint8_t h = (uint8_t)speed + 3 * 64;
 
     uint8_t xx = (uint8_t)x;
