@@ -1,13 +1,14 @@
-Led Matrix Accelerometer Gyroscope Project
-==========================================
+Led Matrix Project
+==================
 
 Hardware
 --------
 
-- [Adafruit 64x64 RGB LED Matrix 2.5mm Pitch](https://www.adafruit.com/product/3649)
+- 4 x [Adafruit 64x64 RGB LED Matrix 2mm Pitch](https://www.adafruit.com/product/5362)
 - [Adafruit Matrix Bonnet](https://www.adafruit.com/product/3211)
-- [MPU6050](https://www.amazon.de/dp/B0CLS2JY43?ref=ppx_yo2ov_dt_b_fed_asin_title)
 - Raspberry Pi Zero 2W
+
+3D print the stand `matrix.FCStd`
 
 Raspberry Pi Install
 --------------------
