@@ -5,7 +5,7 @@ CXX		= g++
 CPPFLAGS	= -I/home/alu/rpi-rgb-led-matrix/include
 CFLAGS		= -march=native -O3 -funroll-loops -fpic -fstack-protector-all \
 		  -Wall -Wextra -Werror -pipe -Wno-unused-parameter
-LDFLAGS		= -L. -lrgbmatrix -li2c -lrt -lm -lpthread -s
+LDFLAGS		= -L. -lrgbmatrix -lrt -lm -lpthread -s
 REASON		= @if [ -f $@ ]; then echo "[$@: $?]"; else echo "[$@]"; fi
 
 .c.o:
@@ -14,60 +14,53 @@ REASON		= @if [ -f $@ ]; then echo "[$@: $?]"; else echo "[$@]"; fi
 
 ################################################################################
 
-all: demo-matrix max print calib-val calib-hue demo-orient calib-orient demo-particle \
-	ppms2matrix
+all: matrix-min matrix-rgb matrix-max matrix-rot matrix-txt matrix-rain playppm
 
-demo-matrix: demo-matrix.o matrix.o
+matrix-min: matrix-min.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-max: max.o matrix.o
+matrix-rgb: matrix-rgb.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-print: print.o matrix.o
+matrix-max: matrix-max.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-calib-val: calib-val.o matrix.o
+matrix-rot: matrix-rot.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-calib-hue: calib-hue.o matrix.o
+matrix-txt: matrix-txt.o text.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-demo-orient: demo-orient.o orient.o mpu6050.o
+matrix-rain: matrix-rain.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-calib-orient: calib-orient.o mpu6050.o
-	$(REASON)
-	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-
-demo-particle: demo-particle.o orient.o mpu6050.o matrix.o
-	$(REASON)
-	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-
-################################################################################
-
-ppms2matrix: ppms2matrix.o matrix.o
+playppm: playppm.o matrix.o
 	$(REASON)
 	$(CXX) $(CFLAGS) -o $@ $^ $(LDFLAGS) -lnetpbm
 
 ################################################################################
 
-rgbmatrix.h librgbmatrix.o: build
-	$(REASON)
-	./build
+# rgbmatrix.h librgbmatrix.a: build
+# 	$(REASON)
+# 	./build
 
 deps depend: *.h *.c
 	$(REASON)
-	$(CC) -MM $(CPPFLAGS) *.c > deps
+	$(CC) -MM $(CPPFLAGS) *.h *.c > deps
 
 clean:
 	$(REASON)
 	$(RM) *.o *~ deps
+
+distclean:
+	$(REASON)
+	$(RM) matrix-min matrix-rgb matrix-max matrix-rot matrix-txt matrix-rain playppm
 
 -include deps
  

@@ -2,17 +2,16 @@
 
 #pragma once
 
+#include "matrix.h"
 #include <stdint.h>
 
-#define MATRIX_SIZE 128
-#define MATRIX_WIDTH MATRIX_SIZE
-#define MATRIX_HEIGHT MATRIX_SIZE
+#define SIZE 8
+#define ROWS (MATRIX_HEIGHT / SIZE)
+#define COLS (MATRIX_WIDTH / SIZE)
 
 //*****************************************************************************
 
-void matrix_create(void);
-void matrix_set(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b);
-void matrix_flush(void);
-void matrix_free(void);
+void print_chr(int row, int col, char c, uint8_t r, uint8_t g, uint8_t b);
+void print_str(int row, const char *str, uint8_t r, uint8_t g, uint8_t b);
 
 //*****************************************************************************

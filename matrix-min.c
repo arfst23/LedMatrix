@@ -6,7 +6,13 @@
 #include <math.h>
 #include <assert.h>
 
-#define DELAY 10
+#define R 146
+#define G 134
+#define B 250
+
+#define Y (R * G / 255)
+#define C (G * B / 255)
+#define M (R * B / 255)
 
 static inline void delay(int ms)
 {
@@ -19,24 +25,17 @@ int main()
 {
   matrix_create();
 
-  for (int v = 0; v < 256; v++)
-  {
-    for (int x = 0; x < MATRIX_WIDTH; x++)
-      for (int y = 0; y < MATRIX_HEIGHT; y++)
-        matrix_set(x, y, v, v, v);
-    matrix_flush();
-    delay(DELAY);
-  }
-  delay(3000);
+  matrix_set(0, 0, 255, 255, 255);
 
-  for (int v = 254; v >= 0; v--)
+  for (int i = 1; i < 128; i++)
   {
-    for (int x = 0; x < MATRIX_WIDTH; x++)
-      for (int y = 0; y < MATRIX_HEIGHT; y++)
-        matrix_set(x, y, v, v, v);
-    matrix_flush();
-    delay(DELAY);
+    matrix_set(i, 0, R, 0, 0);
+    matrix_set(0, i, 0, G, 0);
+    matrix_set(i, i, 0, 0, B);
   }
+
+  matrix_flush();
+  delay(20000);
 
   matrix_free();
   return EXIT_SUCCESS;

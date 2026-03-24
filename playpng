@@ -1,0 +1,7 @@
+#!/bin/sh
+
+(
+  for f in "$@"; do
+    pngtopnm "$f"
+  done
+) | sudo ./playppm 1000
