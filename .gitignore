@@ -1,8 +1,11 @@
 *.d
 *.o
 *.a
-*.~
+*~
 core
 tags
 deps
 rgbmatrix.h
+librgbmatrix.a
+rgbmatrix-demo
+rpi-rgb-led-matrix-installer
