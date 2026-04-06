@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+
+use strict;
+
+die "uage: $0 GAMMA MAX\n"
+  unless (@ARGV == 2);
+my ($exp, $max) = @ARGV;
+
+print "static uint8_t gamma[256] =\n";
+print "{\n";
+foreach my $i (0 .. 255)
+{
+  my $g = int((($i / 255.0) ** $exp) * $max);
+
+  printf "  [%d] = %d,\n", $i, $g;
+}
+print "};\n";

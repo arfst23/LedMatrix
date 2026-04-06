@@ -53,22 +53,20 @@ void matrix_set(uint8_t x, uint8_t y, uint8_t r, uint8_t g, uint8_t b)
       : 3 * MATRIX_HEIGHT / 2 - 1 - y;
   }
 
+#if 1
   // begin color correction
-  if (x < MATRIX_WIDTH / 2 && y < MATRIX_HEIGHT / 2)
+  if (x < MATRIX_WIDTH / 2 && y < MATRIX_HEIGHT / 2) // top left
   {
-    float bb = (float)b / 255.0 * 0.93;
-    b = (uint8_t)(bb * 255.0 + 0.5);
+    r = (uint8_t)(((int)r * 236) >> 8);
+    g = (uint8_t)(((int)g * 230) >> 8);
+    b = (uint8_t)(((int)b * 240) >> 8);
   }
   else
   {
-    uint8_t y = r < g ? r : g;
-    float yy = (float)y / 255.0;
-    yy *= 0.07;
-    y = (uint8_t)(yy * 255.0 / 2.0 + 0.5);
-    r -= y;
-    g -= y;
+    g = (uint8_t)(((int)g * 217) >> 8);
   }
   // end color correction
+#endif
 
   led_canvas_set_pixel(matrix_buffer,
     y & (MATRIX_HEIGHT - 1),

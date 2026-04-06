@@ -5,9 +5,10 @@
 #include "matrix.h"
 #include <stdint.h>
 
-#define SIZE 8
-#define ROWS (MATRIX_HEIGHT / SIZE)
-#define COLS (MATRIX_WIDTH / SIZE)
+#define SIZE_X 7
+#define SIZE_Y 10
+#define ROWS (MATRIX_HEIGHT / SIZE_Y)
+#define COLS (MATRIX_WIDTH / SIZE_X)
 
 //*****************************************************************************
 

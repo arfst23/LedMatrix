@@ -2,6 +2,6 @@
 
 for f in "$@"; do
 
-  ffmpeg -i "$f" -f image2pipe -vcodec ppm - | sudo ./playppm 30
+  ffmpeg -i "$f" -f image2pipe -vcodec ppm - | sudo ./playppm 25
 
 done

@@ -977,8 +977,8 @@ void print_chr(int row, int col, char c, uint8_t r, uint8_t g, uint8_t b)
   assert(c >= ' ');
   assert(c <= '~');
 
-  int x = col * SIZE;
-  int y = row * SIZE;
+  int x = col * SIZE_X;
+  int y = row * SIZE_Y;
   int i = c - ' ';
 
   for (int line = 0; line < 8; line++)
