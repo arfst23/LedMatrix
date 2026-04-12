@@ -9,3 +9,5 @@ rgbmatrix.h
 librgbmatrix.a
 rgbmatrix-demo
 rpi-rgb-led-matrix-installer
+rgb-matrix-bonnet.pdf
+mktty

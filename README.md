@@ -35,3 +35,20 @@ Raspberry Pi Install
 - build software
 
     make
+
+Code in this repo
+-----------------
+
+- `matrix.c`, `matrix.h`: simple interface to the led matrix
+- `text.c`, `text.h`: printing text 
+- `matrix-min.c`: minimal example
+- `matrix-max.c`: maximum brightness
+- `matrix-rgb.c`: color pattern
+- `matrix-rain.c`: show the matrix rain animation 
+- `matrix-rot.c`: rotate a rainbow square
+- `matrix-txt.c`: print text 
+- `matrix-tty.c`: print text in a minimal term with cursor
+- `playppm.c`: play a ppm image stream 
+- `playppm-lim.c`: play a ppm image stream with limiter
+
+build with `make`

@@ -8,6 +8,12 @@
 #include <string.h>
 #include <assert.h>
 
+#define SIZE_X 7
+#define SIZE_Y 10
+
+// r=12 c=17 -> x=119 y=120
+// 2+2
+
 //******************************************************************************
 // >>> font[96][8]
 
@@ -968,6 +974,26 @@ static const uint8_t font[96][8] =
 // <<<
 //******************************************************************************
 
+void print_frame(uint8_t r, uint8_t g, uint8_t b)
+{
+  for (int i = 0; i < 128 - 2; i++)
+  {
+    matrix_set(i, 0, r, g, b);
+    matrix_set(i, 1, r, g, b);
+
+    matrix_set(127, i, r, g, b);
+    matrix_set(126, i, r, g, b);
+
+    matrix_set(127 - i, 127, r, g, b);
+    matrix_set(127 - i, 126, r, g, b);
+
+    matrix_set(0, 127 - i, r, g, b);
+    matrix_set(1, 127 - i, r, g, b);
+  }
+}
+
+//******************************************************************************
+
 void print_chr(int row, int col, char c, uint8_t r, uint8_t g, uint8_t b)
 {
   assert(row >= 0);
@@ -977,20 +1003,43 @@ void print_chr(int row, int col, char c, uint8_t r, uint8_t g, uint8_t b)
   assert(c >= ' ');
   assert(c <= '~');
 
-  int x = col * SIZE_X;
-  int y = row * SIZE_Y;
+  int x = col * SIZE_X + 4;
+  int y = row * SIZE_Y + 4;
+  int i = c - ' ';
+
+  for (int line = 0; line < 8; line++)
+    for (int bit = 0; bit < 5; bit++)
+      if ((0b10000 >> bit) & font[i][line])
+	matrix_set(x + bit, y + line, r, g, b);
+}
+
+//******************************************************************************
+
+void print_chr_rev(int row, int col, char c, uint8_t r, uint8_t g, uint8_t b)
+{
+  assert(row >= 0);
+  assert(row < ROWS);
+  assert(col >= 0);
+  assert(col < COLS);
+  assert(c >= ' ');
+  assert(c <= '~');
+
+  int x = col * SIZE_X + 4;
+  int y = row * SIZE_Y + 4;
   int i = c - ' ';
 
   for (int line = 0; line < 8; line++)
   {
-    uint8_t mask = font[i][line] << 1;
-    for (int bit = 0; bit < 7; bit++)
-    {
-      bool pixel = mask & 0b1000000;
-      if (pixel)
+    for (int bit = 0; bit < 5; bit++)
+      if (!((0b10000 >> bit) & font[i][line]))
 	matrix_set(x + bit, y + line, r, g, b);
-      mask <<= 1;
-    }
+    matrix_set(x - 1, y + line, r, g, b);
+    matrix_set(x + 5, y + line, r, g, b);
+  }
+  for (int i = -1; i <= 5; i++)
+  {
+    matrix_set(x + i, y - 1, r, g, b);
+    matrix_set(x + i, y + 8, r, g, b);
   }
 }
 
@@ -1001,10 +1050,8 @@ void print_str(int row, const char *str, uint8_t r, uint8_t g, uint8_t b)
   assert(row >= 0);
   assert(row < ROWS);
   assert(str);
-  int len = strlen(str);
-  assert(len < COLS);
 
-  for (int i = 0; i < len; i++)
+  for (int i = 0; i < COLS && str[i]; i++)
     print_chr(row, i, str[i], r, g, b);
 }
 
